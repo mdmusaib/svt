@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Col, DatePicker, Form, Input, Row, Select } from "antd";
 import {
   MailOutlined,
@@ -16,6 +16,15 @@ const TruckBooking = (props) => {
   const [form] = Form.useForm();
   let containerRef = useRef();
   let api = useApi();
+
+  useEffect(() => {
+    if(props?.location?.type === "view"){
+      console.log(props.location.record);
+      let obj={...props.location.record};
+      delete obj.permit_expiry_date;
+      form.setFieldsValue(obj);
+    }
+  }, [props?.location?.type]);
   const handleSubmit = async (value) => {
     let vehicleDetails={...value,permit_expiry_date:new Date(value.permit_expiry_date).toLocaleDateString()}
     let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/updateVehicle",method:"post",data:vehicleDetails});
@@ -33,6 +42,19 @@ const TruckBooking = (props) => {
 
   return (
     <div ref={containerRef} style={{ padding: "20px 10px" }}>
+      <Row>
+        
+        {props.location.type==="view"?<Button
+          onClick={()=>props.history.goBack()}
+          type="primary"
+          style={{
+            marginBottom: 16,
+          }}
+        >
+          Back
+        </Button>:
+        <p style={{ fontSize: "calc(10px + 1vmin)" }}>Vehicle</p>}
+      </Row>
       <Row>
         <p style={{ fontSize: "calc(10px + 1vmin)" }}>Add New Truck Details</p>
       </Row>
@@ -190,13 +212,15 @@ const TruckBooking = (props) => {
         <Row gutter={16}>
           <Col>
             <Form.Item>
-              <Button type={"primary"} danger htmlType="submit">
+              
+              {props.location.type==="view"?"":<Button type={"primary"} danger htmlType="submit">
                 Submit
-              </Button>
+              </Button>}
             </Form.Item>
           </Col>
+          
           <Col>
-            <Button onClick={handleReset}>Reset</Button>
+          {props.location.type==="view"?"":<Button onClick={handleReset}>Reset</Button>}
           </Col>
         </Row>
       </Form>

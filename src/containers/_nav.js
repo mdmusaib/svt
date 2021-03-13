@@ -9,40 +9,77 @@ const _nav = [
     icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
     badge: {
       color: "info",
-      text: "NEW",
+      
     },
   },
   {
     _tag: "CSidebarNavTitle",
-    _children: ["Booking"],
+    _children: ["Booking Details"],
+    icon: 'cil-calculator',
   },
   {
-    _tag: "CSidebarNavItem",
-    name: "Booking",
-    to: "/listBooking",
-    icon: "cil-calculator",
-  },
-  {
-    _tag: "CSidebarNavItem",
+    _tag: 'CSidebarNavDropdown',
+    name: 'Booking',
+    route: '/icons',
+    icon: 'cil-calculator',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'List Bookings',
+        to: '/listBooking',
+        icon: "cil-list",
+        badge: {
+          color: 'success',
+        },
+      },
+      {
+        _tag: "CSidebarNavItem",
     name: "Add Booking",
     to: "/addBooking",
     icon: "cil-cursor",
     badge: {
       color: "success",
-      text: "NEW",
     },
+      },
+    ],
   },
   {
     _tag: "CSidebarNavTitle",
-    _children: ["Truck Details"],
+    _children: ["Vehicle Details"],
   },
-  {
-    _tag: "CSidebarNavItem",
-    name: "Add Trucks",
-    to: "/addTruck",
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
-  },
+  // {
+  //   _tag: "CSidebarNavItem",
+  //   name: "Vehicle",
+  //   to: "/addTruck",
+  //   icon: "cli-truck",
+  // },
 
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'Vehicle Details',
+    route: '/icons',
+    icon: 'cil-calculator',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'List Vehicle',
+        to: '/listVehicles',
+        icon: "cil-list",
+        badge: {
+          color: 'success',
+        },
+      },
+      {
+        _tag: "CSidebarNavItem",
+    name: "Add Vehicles",
+    to: "/addTruck",
+    icon: "cil-cursor",
+    badge: {
+      color: "success",
+    },
+      },
+    ],
+  },
   {
     _tag: "CSidebarNavTitle",
     _children: ["Invoice"],
@@ -51,8 +88,11 @@ const _nav = [
     _tag: "CSidebarNavItem",
     name: "Invoice",
     to: "/invoice",
-    icon: <CIcon name="cil-speedometer" customClasses="c-sidebar-nav-icon" />,
+    icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
   },
+
+
+  
 ];
 
 export default _nav;

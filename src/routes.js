@@ -44,6 +44,7 @@ const Dashboard = React.lazy(() => import("./views/dashboard/Dashboard"));
 const TruckBooking = React.lazy(() => import("./components/TruckBooking"));
 const Invoice = React.lazy(() => import("./components/invoice/Invoice"));
 const ListBooking = React.lazy(() => import("./components/ListBooking"));
+const ListVehicle = React.lazy(() => import("./components/ListVehicles"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -53,6 +54,8 @@ const routes = [
   { path: "/login", name: "TruckBooking", component: Login},
   { path: "/invoice", name: "TruckBooking", component: Invoice },
   { path: "/listBooking", name: "TruckBooking", component: ListBooking },
+  { path: "/listVehicles", name: "TruckBooking", component: ListVehicle },
+  
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },

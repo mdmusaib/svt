@@ -8,7 +8,7 @@ const EditableContext = React.createContext(null);
 
 
 
-const ListBooking=props=>{
+const ListVehicle=props=>{
 const [dataSource,setDataSource]=useState([]);
 const [searchedColumn,setSearchedColumn]=useState('');
 const [searchText,setSearchText]=useState('');
@@ -75,15 +75,15 @@ const getColumnSearchProps = dataIndex => ({
 
   const columns=[
     {
-      title: "* Customer Name",
-      dataIndex: "customer_name",
+      title: "* Vehicle Number",
+      dataIndex: "vehicle_no",
       editable: false,
       width: "50%",
       ...getColumnSearchProps('customer_name'),
     },
     {
-      title: "Address",
-      dataIndex: "receiver_address",
+      title: "Service Location",
+      dataIndex: "service_loc",
       editable: false,
       width: "50%",
       ...getColumnSearchProps('receiver_address'),
@@ -107,8 +107,8 @@ const getColumnSearchProps = dataIndex => ({
   //     width: "50%",
   //   },
     {
-      title: "* Rate",
-      dataIndex: "rate",
+      title: "* Vehicle Provider",
+      dataIndex: "vehicle_provider",
       editable: false,
       width: "50%",
       
@@ -120,26 +120,26 @@ const getColumnSearchProps = dataIndex => ({
   //     width: "50%",
   //   },
     {
-      title: "* Tot Amt",
-      dataIndex: "total_amount",
+      title: "* Transport Type",
+      dataIndex: "transport_type",
       editable: false,
       width: "70%",
     },
-  //   {
-  //     title: "* Expences",
-  //     dataIndex: "expences",
-  //     editable: false,
-  //   },
-    // {
-    //   title: "* Driver Name",
-    //   dataIndex: "driver_name",
-    //   editable: false,
-    // },
-    // {
-    //   title: "* Profit",
-    //   dataIndex: "profit",
-    //   editable: false,
-    // },
+    {
+      title: "* Vehicle Details",
+      dataIndex: "vehicle_details",
+      editable: false,
+    },
+    {
+      title: "* Permit",
+      dataIndex: "permit",
+      editable: false,
+    },
+    {
+      title: "* Permit Expiry Date",
+      dataIndex: "permit_expiry_date",
+      editable: false,
+    },
     {
     title: "Operations",
       dataIndex: "operation",
@@ -148,7 +148,6 @@ const getColumnSearchProps = dataIndex => ({
 
           <div  title="View Booking" style={{cursor:"pointer", whiteSpace:"nowrap"}} >
             <EyeOutlined style={{cursor:"pointer"}} onClick={()=>handleView(record)}/>&nbsp;&nbsp;&nbsp;
-            <FileTextOutlined style={{cursor:"pointer"}}onClick={()=>handleInvoice(record)}/>
           </div>
             
         ) : null,
@@ -162,14 +161,14 @@ const getColumnSearchProps = dataIndex => ({
     getBooking();
   },[])
 const handleView=(record)=>{
-    props.history.push({pathname:"addBooking",record:record,type:"view"});
+    props.history.push({pathname:"addTruck",record:record,type:"view"});
 }
 const handleInvoice=(record)=>{
     props.history.push({pathname:"invoice",record:record,type:"view"});
 }
 
   const getBooking=async()=>{
-    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/getBookings",method:"get"});
+    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/getVehicle",method:"get"});
     setDataSource(response.data);
     console.log("called", response);
   }
@@ -189,4 +188,4 @@ const handleInvoice=(record)=>{
   }
 
 
-export default ListBooking;
+export default ListVehicle;

@@ -22,8 +22,11 @@ useEffect(() => {
         response?.data?.vehicle_details.map(data=>{
          total=parseInt(total)+parseInt(data.total_amount);   
         });
-        console.log(total)
+        setTotalAmount(total);
     }
+    useEffect(()=>{
+    setTotalAmount(totalAmount);
+    },[totalAmount])
 return(
     <>
     {props.location.type==="view"?<div  class="container d-flex justify-content-center mt-50 mb-50">
@@ -37,7 +40,8 @@ return(
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-6
+                        ">
                             <div class="mb-4 pull-left">
                                {/* <!--  <h4>SVT Infra</h4> --> */}
                                 <ul class="list list-unstyled mb-0 text-left">
@@ -108,30 +112,30 @@ return(
                 <div class="card-body">
                     <div class="d-md-flex flex-md-wrap">
                         <div class="pt-2 mb-3 wmin-md-400 ml-auto">
-                            <h6 class="mb-3 text-left">Total</h6>
+                            {/* <h6 class="mb-3 text-left">Total</h6> */}
                             <div class="table-responsive">
                                 <table class="table">
                                     <tbody>
                                         <tr>
                                             <th class="text-left">Total Amount:</th>
-                                            <td class="text-right">80220</td>
+                                            <td class="text-right">{totalAmount}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">GST Amount:</th>
-                                            <td class="text-right">4011</td>
+                                            <td class="text-right">{totalAmount*bookingData.tax/100}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">CGST: <span class="font-weight-normal">2.5%</span></th>
-                                            <td class="text-right">2105.78</td>
+                                            <td class="text-right">{totalAmount*2.5/100}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">SGST: <span class="font-weight-normal">2.5%</span></th>
-                                            <td class="text-right">2105.78</td>
+                                            <td class="text-right">{totalAmount*2.5/100}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">Grand Total:</th>
                                             <td class="text-right text-primary">
-                                                <h5 class="font-weight-semibold">84231</h5>
+                                                <h5 class="font-weight-semibold">{totalAmount+totalAmount*bookingData.tax/100}</h5>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -141,11 +145,11 @@ return(
                         </div>
                     </div>
                 </div>
-                <div class="card-footer"> <span class="text-muted">Seller shall have the continuing right to approve Buyer’s credit. Seller may at any time demand advance payment, additional security or guarantee of prompt payment. If Buyer refuses to give the payment, security or guarantee demanded, Seller may terminate the Agreement, refuse to deliver any undelivered goods and Buyer shall immediately become liable to Seller for the unpaid price of all goods delivered & for damages as provided in Paragraph V below. Buyer agrees to pay Seller cost of collection of overdue invoices, including reasonable attorney’s fees incurred by Seller in collecting said sums. F.O.B. point shall be point of SHIP TO on face hereof.</span> </div>
+                {/* <div class="card-footer"> <span class="text-muted">Seller shall have the continuing right to approve Buyer’s credit. Seller may at any time demand advance payment, additional security or guarantee of prompt payment. If Buyer refuses to give the payment, security or guarantee demanded, Seller may terminate the Agreement, refuse to deliver any undelivered goods and Buyer shall immediately become liable to Seller for the unpaid price of all goods delivered & for damages as provided in Paragraph V below. Buyer agrees to pay Seller cost of collection of overdue invoices, including reasonable attorney’s fees incurred by Seller in collecting said sums. F.O.B. point shall be point of SHIP TO on face hereof.</span> </div> */}
             </div>
         </div>
     </div>
-    </div>:''}
+    </div>:"No Data"}
     
     </>
 )
