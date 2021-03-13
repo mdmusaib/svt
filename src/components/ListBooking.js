@@ -167,7 +167,7 @@ const handleInvoice=(record)=>{
 }
 
   const getBooking=async()=>{
-    let response=await api.invoke({endPoint:"http://localhost:8000/api/getBookings",method:"get"});
+    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/getBookings",method:"get"});
     setDataSource(response.data);
     console.log("called", response);
   }

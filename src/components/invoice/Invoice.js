@@ -13,7 +13,7 @@ useEffect(() => {
   }, [props?.location?.type]);
 
     const generateInvoice=async ()=>{
-        let response=await api.invoke({endPoint:`http://localhost:8000/api/getBooking/${props.location.record.id}`,method:"get"});
+        let response=await api.invoke({endPoint:`https://svt-logictics.herokuapp.com/api/getBooking/${props.location.record.id}`,method:"get"});
         let total=0;
         console.log(response.data)
         setInvoiceData(response.data);

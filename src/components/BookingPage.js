@@ -38,7 +38,7 @@ const BookingPage = (props) => {
 
   const handleSubmit =async (value) => {
     let bookingDetails={...value,delivery_date:new Date(value.delivery_date).toLocaleDateString(),date:new Date(value.date).toLocaleDateString(),items:JSON.stringify(tableData),vehicle_details:JSON.stringify(vehicleTableData)}
-    let response=await api.invoke({endPoint:"http://localhost:8000/api/addBooking",method:"post",data:bookingDetails});
+    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/addBooking",method:"post",data:bookingDetails});
     if(response.status===1){
       form.resetFields();
       setTableData([]);
