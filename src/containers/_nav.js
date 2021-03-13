@@ -90,6 +90,12 @@ const _nav = [
     to: "/invoice",
     icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
   },
+  {
+    _tag: "CSidebarNavItem",
+    name: "My Bill Book",
+    to: "/myBillBook",
+    icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
+  },
 
 
   
