@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import { Table, Input, Button, Popconfirm, Form } from "antd";
+import { Table, Input, Button, Popconfirm, Form, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
+import "./styles.css";
+import Checkbox from "antd/lib/checkbox/Checkbox";
 const EditableContext = React.createContext(null);
-
+const { Option } = Select;
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
@@ -52,8 +54,50 @@ const EditableCell = ({
   let childNode = children;
 
   if (editable) {
-    childNode = editing ? (
-      <Form.Item
+  if(editing){
+
+    switch (dataIndex) {
+      case "party_name":
+        childNode=  <Form.Item
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
+      <Select ref={inputRef} onPressEnter={save} onBlur={save}> <Option value="jack">Jack</Option>
+      <Option value="lucy">Lucy</Option>
+      <Option value="disabled" disabled>
+        Disabled
+      </Option>
+      <Option value="Yiminghe">yiminghe</Option></Select>
+      </Form.Item>;
+        break;
+      case "gst":
+        childNode=  <Form.Item
+        valuePropName="checked"
+        style={{
+          margin: 0,
+        }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
+      <Checkbox ref={inputRef} onPressEnter={save} onChange={save}  onBlur={save}></Checkbox>
+      </Form.Item>;
+      break;
+      default:
+        childNode=
+        <Form.Item
         style={{
           margin: 0,
         }}
@@ -67,17 +111,57 @@ const EditableCell = ({
       >
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
+        break;
+    }
+  }else{
+    childNode=(<div
+    className={dataIndex==="gst"?"gstClass":"editable-cell-value-wrap"}
+    style={{
+      paddingRight: 24,
+    }}
+    onClick={toggleEdit}
+  >
+    {children}
+  </div>)
+  }
+
+
+    // childNode = editing ? (
+    
+      // <Form.Item
+      //   style={{
+      //     margin: 0,
+      //   }}
+      //   name={dataIndex}
+      //   rules={[
+      //     {
+      //       required: true,
+      //       message: `${title} is required.`,
+      //     },
+      //   ]}
+      // >
+        
+      
+      //   {dataIndex==="party_name"?<Select ref={inputRef} onPressEnter={save} onBlur={save}> <Option value="jack">Jack</Option>
+      // <Option value="lucy">Lucy</Option>
+      // <Option value="disabled" disabled>
+      //   Disabled
+      // </Option>
+      // <Option value="Yiminghe">yiminghe</Option></Select> :<Input ref={inputRef} onPressEnter={save} onBlur={save} />}
+        
+      // </Form.Item>
+    // ) : (
+      // <div
+      //   className="editable-cell-value-wrap"
+      //   style={{
+      //     paddingRight: 24,
+      //   }}
+      //   onClick={toggleEdit}
+      // >
+      //   {children}
+      // </div>
+      
+    // );
   }
 
   return <td {...restProps}>{childNode}</td>;
@@ -86,78 +170,139 @@ const EditableCell = ({
 class EditingTableForVechicle extends React.Component {
   constructor(props) {
     super(props);
+    
     this.columns = [
       {
         title: "* Vehicle No",
         dataIndex: "vehicle_no",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* DC.NO",
         dataIndex: "dc_no",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* From",
         dataIndex: "from_loc",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* To",
         dataIndex: "to_loc",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* Material",
         dataIndex: "material",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* Party Name",
         dataIndex: "party_name",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* Rate",
         dataIndex: "rate",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
-        title: "* Scale",
-        dataIndex: "scale",
+        title: "* Weight",
+        dataIndex: "weight",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
-        title: "* Tot Amt",
-        dataIndex: "total_amount",
+        title: "* GST",
+        dataIndex: "gst",
         editable: true,
-        width: "10%",
+        width: "200",
+      },
+      {
+        title: "* Payment Type",
+        dataIndex: "payment_type",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Diseal Rate",
+        dataIndex: "diesel_rt",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Diseal Qty",
+        dataIndex: "diesel_qty",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Loading Quantity",
+        dataIndex: "loading_quantity",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Accepted Quantity",
+        dataIndex: "accepted_quantity",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Logistic Rent",
+        dataIndex: "logistic_rent",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Lead",
+        dataIndex: "lead",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* Date",
+        dataIndex: "date",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "* PUC",
+        dataIndex: "puc",
+        editable: true,
+        width: "200",
       },
       {
         title: "* Expences",
         dataIndex: "expences",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "* Driver Name",
         dataIndex: "driver_name",
         editable: true,
-        width: "10%",
+        width: "200",
+      },
+      {
+        title: "* Tot Amt",
+        dataIndex: "total_amount",
+        editable: true,
+        width: "200",
       },
       {
         title: "* Profit",
         dataIndex: "profit",
         editable: true,
-        width: "10%",
+        width: "200",
       },
       {
         title: "",
@@ -200,18 +345,29 @@ class EditingTableForVechicle extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
-      vehicle_no: "0",
-      dc_no: "0",
-      from_loc: "0",
-      to_loc: "0",
-      material: "0",
-      party_name: "0",
-      rate: "0",
-      scale: "0",
-      total_amount: "0",
-      expences: "0",
-      driver_name: "0",
-      profit: "0",
+      vehicle_no: "",
+      dc_no: "",
+      from_loc: "",
+      to_loc: "",
+      material: "",
+      party_name: "",
+      rate: "",
+      scale: "",
+      weight:"",
+      gst:"",
+      payment_type:"",
+      diesel_rt:"",
+      diesel_qty:"",
+      loading_quantity:"",
+      accepted_quantity:"",
+      logistic_rent:"",
+      lead:"",
+      date:"",
+      puc:"",
+      total_amount: "",
+      expences: "",
+      driver_name: "",
+      profit: "",
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -258,7 +414,7 @@ class EditingTableForVechicle extends React.Component {
       };
     });
     return (
-      <div style={{ width: "100%", overflowX: "scroll" }}>
+      <div style={{ width: "100%" }}>
          {this.props.view?"":<Button
           onClick={this.handleAdd}
           type="primary"
@@ -275,6 +431,7 @@ class EditingTableForVechicle extends React.Component {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
+          scroll={{ x: 4200 }}
         />
       </div>
     );

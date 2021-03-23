@@ -31,12 +31,14 @@ const TheSidebar = () => {
           className="c-sidebar-brand-full"
           name="logo-negative"
           height={35}
+          style={{background:"white"}}
           src="https://svtinfra.com/images/svt%20infra.png"
         />
         <CIcon
           className="c-sidebar-brand-minimized"
           name="sygnet"
           height={35}
+          style={{background:"white"}}
           src="https://svtinfra.com/images/svt%20infra.png"
         />
       </CSidebarBrand>

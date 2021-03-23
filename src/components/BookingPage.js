@@ -64,9 +64,31 @@ const BookingPage = (props) => {
       updateFinalRate();
     }
   };
+  // useEffect(()=>{
+  //   let vehicleData=[...vehicleTableData];
+  //   let lastRow=vehicleData.pop();
+    
+  //   if(lastRow?.gst && lastRow.total_amount){
+  //     let updatedRowData={...lastRow,total_amount:5000}
+  //     // lastRow.total_amount=43456546;
+  //     setVehicleTableData([...vehicleData,updatedRowData])
+  //   }
+  // },[vehicleTableData])
 
   const getTableDataForVehicle = (data) => {
-    setVehicleTableData(data);
+    let vehicle_data=[...data];
+    let lastRow=vehicle_data.pop();
+    if(parseInt(lastRow.rate) && parseInt(lastRow.weight)){
+      
+      let total_amt=parseInt(lastRow.rate) * parseInt(lastRow.weight);
+      lastRow.total_amount=total_amt;
+    }
+     if(lastRow.gst===true && lastRow.total_amount){
+        let calculatedGST=lastRow.total_amount+(lastRow.total_amount*5/100);
+        lastRow.total_amount=calculatedGST.toFixed(2);
+     }
+    console.log('data',vehicle_data,lastRow)
+    setVehicleTableData([...vehicle_data,lastRow]);
   };
 
   const updateFinalRate = () => {

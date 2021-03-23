@@ -192,16 +192,20 @@ class EditingTableInBooking extends React.Component {
     });
     return (
       <div style={{ width: "100%" }}>
-        {this.props.view?"":<Button
-          onClick={this.handleAdd}
-          type="primary"
-          style={{
-            marginBottom: 16,
-          }}
-        >
-          Add a row
-        </Button>}
-        
+        {this.props.view ? (
+          ""
+        ) : (
+          <Button
+            onClick={this.handleAdd}
+            type="primary"
+            style={{
+              marginBottom: 16,
+            }}
+          >
+            Add a row
+          </Button>
+        )}
+
         <Table
           components={components}
           rowClassName={() => "editable-row"}
@@ -209,6 +213,7 @@ class EditingTableInBooking extends React.Component {
           dataSource={dataSource}
           columns={columns}
           pagination={false}
+          scroll={{ x: 2400 }}
         />
       </div>
     );
