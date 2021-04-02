@@ -3,6 +3,7 @@ import { Table, Input, Button, Popconfirm, Form, Select } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import "./styles.css";
 import Checkbox from "antd/lib/checkbox/Checkbox";
+import useApi from "src/core/useApi";
 const EditableContext = React.createContext(null);
 const { Option } = Select;
 const EditableRow = ({ index, ...props }) => {
@@ -28,11 +29,21 @@ const EditableCell = ({
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
   const form = useContext(EditableContext);
+  let api=useApi();
   useEffect(() => {
     if (editing) {
       inputRef.current.focus();
     }
   }, [editing]);
+  const [customerData, setCustomerData] = useState([]);
+  useEffect(() => {
+    getAllCustomer();
+  }, []);
+  const getAllCustomer=async ()=>{
+    let response=await api.invoke({endPoint:"http://localhost:8000/api/customers",method:"get"}); 
+    setCustomerData(response);
+    console.log('response',response);
+  }
 
   const toggleEdit = () => {
     setEditing(!editing);
@@ -40,7 +51,6 @@ const EditableCell = ({
       [dataIndex]: record[dataIndex],
     });
   };
-
   const save = async () => {
     try {
       const values = await form.validateFields();
@@ -51,12 +61,36 @@ const EditableCell = ({
     }
   };
 
+  const handleUpload=async (event)=>{
+
+// console.log("attachments",event.target.files)
+    // handleSave({...record,images:formData});
+  }
   let childNode = children;
+
 
   if (editable) {
   if(editing){
 
     switch (dataIndex) {
+      // case "images":
+      //   childNode=
+      //   <Form.Item
+      //   style={{
+      //     margin: 0,
+      //   }}
+      //   name={dataIndex}
+      //   rules={[
+      //     {
+      //       required: false,
+      //       message: `${title} is required.`,
+      //     },
+      //   ]}
+      // ><div className="mb-3">
+      // <input ref={inputRef} type="file" class="form-control-file border"  name="fileInput" onChange={(event)=>handleUpload(event)} multiple="true" />
+      // </div>
+      // </Form.Item>
+      //   break;
       case "party_name":
         childNode=  <Form.Item
         style={{
@@ -70,30 +104,31 @@ const EditableCell = ({
           },
         ]}
       >
-      <Select ref={inputRef} onPressEnter={save} onBlur={save}> <Option value="jack">Jack</Option>
-      <Option value="lucy">Lucy</Option>
-      <Option value="disabled" disabled>
-        Disabled
-      </Option>
-      <Option value="Yiminghe">yiminghe</Option></Select>
+      <Select ref={inputRef}  onChange={save}>
+      {customerData.map(data=>
+        <option value={`${data.name}`}>{data.name}</option>
+        )} 
+      </Select>
       </Form.Item>;
         break;
       case "gst":
-        childNode=  <Form.Item
-        valuePropName="checked"
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-      <Checkbox ref={inputRef} onPressEnter={save} onChange={save}  onBlur={save}></Checkbox>
-      </Form.Item>;
+      childNode=  <Form.Item
+      style={{
+        margin: 0,
+      }}
+      name={dataIndex}
+      rules={[
+        {
+          required: true,
+          message: `${title} is required.`,
+        },
+      ]}
+    >
+    <Select ref={inputRef}  onChange={save}> 
+    <Option value="yes">YES</Option>
+    <Option value="no">NO</Option>
+    </Select>
+    </Form.Item>;
       break;
       default:
         childNode=
@@ -115,7 +150,7 @@ const EditableCell = ({
     }
   }else{
     childNode=(<div
-    className={dataIndex==="gst"?"gstClass":"editable-cell-value-wrap"}
+    className={"editable-cell-value-wrap"}
     style={{
       paddingRight: 24,
     }}
@@ -293,17 +328,19 @@ class EditingTableForVechicle extends React.Component {
         width: "200",
       },
       {
-        title: "* Tot Amt",
-        dataIndex: "total_amount",
-        editable: true,
-        width: "200",
-      },
-      {
         title: "* Profit",
         dataIndex: "profit",
         editable: true,
         width: "200",
       },
+      {
+        title: "* Tot Amt",
+        dataIndex: "total_amount",
+        editable: true,
+        width: "200",
+      },
+      
+      
       {
         title: "",
         dataIndex: "operation",
@@ -313,7 +350,7 @@ class EditingTableForVechicle extends React.Component {
               title="Sure to delete?"
               onConfirm={() => this.handleDelete(record.key)}
             >
-              <DeleteOutlined />
+              <DeleteOutlined style={{color:"black"}} />
             </Popconfirm>
           ) : null,
       },
@@ -368,6 +405,7 @@ class EditingTableForVechicle extends React.Component {
       expences: "",
       driver_name: "",
       profit: "",
+      
     };
     this.setState({
       dataSource: [...dataSource, newData],
@@ -413,6 +451,7 @@ class EditingTableForVechicle extends React.Component {
         }),
       };
     });
+  
     return (
       <div style={{ width: "100%" }}>
          {this.props.view?"":<Button
@@ -426,6 +465,8 @@ class EditingTableForVechicle extends React.Component {
         </Button>}
         <Table
           components={components}
+          
+          className="editingTable"
           rowClassName={() => "editable-row"}
           bordered
           dataSource={dataSource}

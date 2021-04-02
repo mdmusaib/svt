@@ -149,6 +149,8 @@ class EditingTableInBooking extends React.Component {
     });
   };
 
+   
+
   handleSave = (row) => {
     const newData = [...this.state.dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
@@ -161,7 +163,7 @@ class EditingTableInBooking extends React.Component {
       () => this.props.getTableData(this.state.dataSource)
     );
   };
-
+  
   render() {
     const { dataSource } = this.state;
     const components = {
@@ -170,6 +172,7 @@ class EditingTableInBooking extends React.Component {
         cell: EditableCell,
       },
     };
+  
     const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col;
@@ -208,6 +211,7 @@ class EditingTableInBooking extends React.Component {
 
         <Table
           components={components}
+         
           rowClassName={() => "editable-row"}
           bordered
           dataSource={dataSource}

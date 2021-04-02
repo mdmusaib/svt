@@ -20,6 +20,10 @@ const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
 
 class App extends Component {
 
+  componentDidMount(){
+    console.log('CheckingAuth',sessionStorage.getItem("Auth"));
+  }
+
   render() {
     return (
       <HashRouter>

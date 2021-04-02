@@ -13,6 +13,16 @@ const _nav = [
     },
   },
   {
+    _tag: "CSidebarNavItem",
+    name: "Customer Details",
+    to: "/customer",
+    icon: <CIcon name="cil-user" customClasses="c-sidebar-nav-icon" />,
+    badge: {
+      color: "info",
+      
+    },
+  },
+  {
     _tag: "CSidebarNavTitle",
     _children: ["Booking Details"],
     icon: 'cil-calculator',
@@ -34,7 +44,7 @@ const _nav = [
       },
       {
         _tag: "CSidebarNavItem",
-    name: "Add Booking",
+    name: "Booking",
     to: "/addBooking",
     icon: "cil-cursor",
     badge: {
@@ -90,12 +100,7 @@ const _nav = [
     to: "/invoice",
     icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
   },
-  {
-    _tag: "CSidebarNavItem",
-    name: "My Bill Book",
-    to: "/myBillBook",
-    icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
-  },
+
 
 
   

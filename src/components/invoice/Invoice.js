@@ -8,25 +8,29 @@ const [bookingData,setBookingData]=useState([]);
 const [totalAmount,setTotalAmount]=useState(0);
 useEffect(() => {
     if(props?.location?.type === "view"){
-     generateInvoice();
+        let total=0;
+        new Promise((resolve)=>{
+            console.log('invoice',props.location.record);
+            setInvoiceData(props.location.record)
+            // let response=await api.invoke({endPoint:`https://svt-logictics.herokuapp.com/api/getBooking/${props.location.record.id}`,method:"get"});
+            
+    
+            props?.location?.record.map(data=>{
+             total=parseInt(total)+parseInt(data.total_amount);   
+            });
+        resolve();
+        }).then(()=>{
+        setTotalAmount(total);
+        });
+        
+
     }
   }, [props?.location?.type]);
-
-    const generateInvoice=async ()=>{
-        let response=await api.invoke({endPoint:`https://svt-logictics.herokuapp.com/api/getBooking/${props.location.record.id}`,method:"get"});
-        let total=0;
-        console.log(response.data)
-        setInvoiceData(response.data);
-        setBookingData(response.data);
-        console.log('totlal',parseInt(response.data.total_amount)+parseFloat(response.data.total_amount*response.data.tax/100));
-        response?.data?.vehicle_details.map(data=>{
-         total=parseInt(total)+parseInt(data.total_amount);   
-        });
-        setTotalAmount(total);
-    }
-    useEffect(()=>{
+  useEffect(()=>{
     setTotalAmount(totalAmount);
     },[totalAmount])
+  
+    
 return(
     <>
     {props.location.type==="view"?<div  class="container d-flex justify-content-center mt-50 mb-50">
@@ -36,7 +40,7 @@ return(
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
                     <h6 class="card-title">Tax invoice</h6>
-                    <div class="header-elements"> <button type="button" class="btn btn-light btn-sm"><i class="fa fa-file mr-2"></i> Save</button> <button type="button" class="btn btn-light btn-sm ml-3"><i class="fa fa-print mr-2"></i> Print</button> </div>
+                    <div class="header-elements"> <button type="button" class="btn btn-light btn-sm ml-3" onClick={()=>{window.print()}}><i class="fa fa-print mr-2"></i> Print</button> </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -87,23 +91,19 @@ return(
                                 <th>MATERIAL</th>
                                 <th>Qty/CFT</th>
                                 <th>Rate</th>
-                                <th>Amount</th>
-                                <th>GST AMT</th>
-                                <th>T Amount</th>
+                                <th>T Amount + GST</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {invoiceData?.vehicle_details?.map(data=>
+                            {invoiceData?.map(data=>
                                 (<tr>
-                                <td>{bookingData.id}</td>
+                                <td>{data.id}</td>
                                 <td>{data.vehicle_no}</td>
                                 <td>{data.dc_no}</td>
                                 <td>{data.material}</td>
-                                <td>{bookingData.total_weight}</td>
-                                <td>{bookingData.rate}</td>
-                                <td>{bookingData.total_amount}</td>
-                                <td>{parseFloat(bookingData.total_amount*bookingData.tax/100)}</td>
-                                <td>{bookingData.total_amount+parseFloat(bookingData.total_amount*bookingData.tax/100)}</td>
+                                <td>{data.weight}</td>
+                                <td>{data.rate}</td>
+                                <td>{data.total_amount}</td>
                             </tr>))}
                             
                         </tbody>
@@ -112,7 +112,7 @@ return(
                 <div class="card-body">
                     <div class="d-md-flex flex-md-wrap">
                         <div class="pt-2 mb-3 wmin-md-400 ml-auto">
-                            {/* <h6 class="mb-3 text-left">Total</h6> */}
+                            
                             <div class="table-responsive">
                                 <table class="table">
                                     <tbody>
@@ -122,7 +122,7 @@ return(
                                         </tr>
                                         <tr>
                                             <th class="text-left">GST Amount:</th>
-                                            <td class="text-right">{totalAmount*bookingData.tax/100}</td>
+                                            <td class="text-right">{totalAmount*5/100}</td>
                                         </tr>
                                         <tr>
                                             <th class="text-left">CGST: <span class="font-weight-normal">2.5%</span></th>
@@ -135,7 +135,7 @@ return(
                                         <tr>
                                             <th class="text-left">Grand Total:</th>
                                             <td class="text-right text-primary">
-                                                <h5 class="font-weight-semibold">{totalAmount+totalAmount*bookingData.tax/100}</h5>
+                                                <h5 class="font-weight-semibold">{totalAmount+totalAmount*10/100}</h5>
                                             </td>
                                         </tr>
                                     </tbody>

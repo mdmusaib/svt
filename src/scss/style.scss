@@ -32,6 +32,32 @@
   }
   .ant-table-tbody > tr.ant-table-row:hover > td {
     background: rgb(0, 190, 214) !important;
-    color: white;
+    color: black;
+  }
+}
+
+.editingTable {
+  // tr:nth-child(odd) {
+  //   background: #dceaf742 !important;
+  // }
+
+  tr {
+    background: #dceaf742 !important;
+  }
+
+  // tr:nth-child(even):hover {
+  //   background: #dceaf742 !important;
+  //   color: white;
+  // }
+  // tr:nth-child(odd):hover {
+  //   background: rgb(220, 234, 247) !important;
+  //   color: white;
+  // }
+  .ant-table-thead > tr > th {
+    background: rgb(177, 179, 180) !important;
+  }
+  .ant-table-tbody > tr.ant-table-row:hover > td {
+    background: #dceaf742  !important;
+    color:black;
   }
 }

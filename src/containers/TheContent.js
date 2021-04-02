@@ -15,6 +15,7 @@ const loading = (
   </div>
 )
 
+
 const TheContent = () => {
   return (
     <main className="c-main">
@@ -22,6 +23,7 @@ const TheContent = () => {
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {
+              console.log('auth');
               return route.component && (
                 <Route
                   key={idx}

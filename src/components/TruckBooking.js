@@ -27,7 +27,7 @@ const TruckBooking = (props) => {
   }, [props?.location?.type]);
   const handleSubmit = async (value) => {
     let vehicleDetails={...value,permit_expiry_date:new Date(value.permit_expiry_date).toLocaleDateString()}
-    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/updateVehicle",method:"post",data:vehicleDetails});
+    let response=await api.invoke({endPoint:"http://localhost:8000/api/updateVehicle",method:"post",data:vehicleDetails});
     if(response.status===1){
       form.resetFields();
     }else{

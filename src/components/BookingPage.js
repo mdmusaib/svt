@@ -18,7 +18,8 @@ const BookingPage = (props) => {
   const [form] = Form.useForm();
   let containerRef = useRef();
   let api=useApi();
-  const [tableData, setTableData] = useState([]);
+  
+  const [tableData,setTableData]=useState([]);
   const [vehicleTableData, setVehicleTableData] = useState([]);
   useEffect(() => {
     
@@ -26,7 +27,9 @@ const BookingPage = (props) => {
     if (lgScreen) {
       containerRef.current.style.padding = "20px 60px";
     }
+    
   }, []);
+  
   useEffect(() => {
     if(props?.location?.type === "view"){
       form.setFieldsValue(props.location.record);
@@ -37,11 +40,11 @@ const BookingPage = (props) => {
   }, [props?.location?.type]);
 
   const handleSubmit =async (value) => {
-    let bookingDetails={...value,delivery_date:new Date(value.delivery_date).toLocaleDateString(),date:new Date(value.date).toLocaleDateString(),items:JSON.stringify(tableData),vehicle_details:JSON.stringify(vehicleTableData)}
-    let response=await api.invoke({endPoint:"https://svt-logictics.herokuapp.com/api/addBooking",method:"post",data:bookingDetails});
+    let bookingDetails={vehicle_details:vehicleTableData}
+    console.log('upload',bookingDetails);
+    let response=await api.invoke({endPoint:"http://localhost:8000/api/addBooking",method:"post",data:bookingDetails});
     if(response.status===1){
       form.resetFields();
-      setTableData([]);
       setVehicleTableData([]);
     }else{
       alert('Something Went Wroung You Booking Couldn`t able to create!');
@@ -51,29 +54,8 @@ const BookingPage = (props) => {
 
   };
 
-  const getTableData = (data) => {
-    if (data.length > 0) {
-      let calcTotalWeight = 0;
-      data.map((list) => {
-        calcTotalWeight = calcTotalWeight + parseInt(list.weight);
-      });
-      setTableData(data);
-      form.setFieldsValue({
-        total_weight: calcTotalWeight,
-      });
-      updateFinalRate();
-    }
-  };
-  // useEffect(()=>{
-  //   let vehicleData=[...vehicleTableData];
-  //   let lastRow=vehicleData.pop();
-    
-  //   if(lastRow?.gst && lastRow.total_amount){
-  //     let updatedRowData={...lastRow,total_amount:5000}
-  //     // lastRow.total_amount=43456546;
-  //     setVehicleTableData([...vehicleData,updatedRowData])
-  //   }
-  // },[vehicleTableData])
+  
+  
 
   const getTableDataForVehicle = (data) => {
     let vehicle_data=[...data];
@@ -83,7 +65,7 @@ const BookingPage = (props) => {
       let total_amt=parseInt(lastRow.rate) * parseInt(lastRow.weight);
       lastRow.total_amount=total_amt;
     }
-     if(lastRow.gst===true && lastRow.total_amount){
+     if(lastRow.gst==="yes" && lastRow.total_amount){
         let calculatedGST=lastRow.total_amount+(lastRow.total_amount*5/100);
         lastRow.total_amount=calculatedGST.toFixed(2);
      }
@@ -91,349 +73,81 @@ const BookingPage = (props) => {
     setVehicleTableData([...vehicle_data,lastRow]);
   };
 
-  const updateFinalRate = () => {
-    let value = form.getFieldValue();
-    let ratePerKg = parseFloat(value.rate);
-    let serviceTax = parseFloat(value.tax);
-    let totalWeight = parseFloat(value.total_weight);
-    let totalPrice = ratePerKg * totalWeight;
-    let taxRate = (totalPrice * serviceTax) / 100;
-    let finalPrice = totalPrice + taxRate;
-    if (ratePerKg && totalWeight)
-      form.setFieldsValue({
-        total_amount: parseFloat(finalPrice) ? finalPrice : 0,
-      });
-  };
+  
 
- const handleTaxChange=()=>{
-  updateFinalRate();
- }
+
   const handleReset = () => {
     form.resetFields();
     setTableData([]);
   };
 
+  const handleUpload=(res)=>{
+    let images=document.getElementById("images").files;
+    let name=document.getElementById("name").value;
+    let data = new FormData()
+    data.append('images',images)
+    data.append('name', name);
+
+  //   let settings = { headers: { 'content-type': 'multipart/form-data' },method: "POST" }
+
+  //   fetch('http://localhost:8000/api/uploadFile', data, settings)
+  //  .then(response => {
+  //   console.log(response)
+  //  }).catch(response => {
+  //   console.log(response)
+  //  })
+
+  // }
+  fetch('http://localhost:8000/api/uploadFile', {
+  // headers: {
+  //   'content-type': 'multipart/form-data',
+  // },
+  method: "POST",
+  body: data,
+})
+.then(response => response.json())
+.catch(error => console.error('Error:', error))
+.then(response => console.log('Success:', response));
+}
+
   return (
     <div ref={containerRef} style={{ padding: "20px 10px" }}>
-      <Row>
-        
-        {props.location.type==="view"?<Button
-          onClick={()=>props.history.goBack()}
-          type="primary"
-          style={{
-            marginBottom: 16,
-          }}
-        >
-          Back
-        </Button>:
-        <p style={{ fontSize: "calc(10px + 1vmin)" }}>Booking</p>}
-      </Row>
-      <hr />
-      <Form style={{ paddingTop: 20 }} form={form} onFinish={handleSubmit}>
+      <div className="file_upload">
+      <Form style={{ paddingTop: 20,paddingLeft:180 }}  >
         <Row>
-          <Col xl={12}>
-            <Row>
-              <Col span={11}>
-                <label>Select Coustmer Type *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="customer_type"
-                  rules={[
-                    { required: true, message: "Please select customer type!" },
-                  ]}
-                >
-                  <Select placeholder="Select">
-                    <Option value="Accounted Coustmer">
-                      Accounted Coustmer
-                    </Option>
-                    <Option value="Walkin Coustmer">Walkin Coustmer</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <p style={{ fontSize: "calc(10px + 1vmin)" }}>Sender Details..</p>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Email *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="sender_email"
-                  rules={[
-                    { type: "email", message: "Please Enter Valid Mail" },
-                    { required: true, message: "Please enter your mail!" },
-                  ]}
-                >
-                  <Input placeholder="Email" prefix={<MailOutlined />} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Mobile Number *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="sender_mobile"
-                  rules={[
-                    { required: true, message: "Please enter your number!" },
-                  ]}
-                >
-                  <Input
-                    placeholder="Mobile Number"
-                    maxLength={10}
-                    prefix={<MobileOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Origin *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="sender_origin"
-                  rules={[
-                    { required: true, message: "Please enter your origin!" },
-                  ]}
-                >
-                  <Input placeholder="Origin" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Origin Service Location *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="originServiceLocation"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter your origin service location!",
-                    },
-                  ]}
-                >
-                  <Input placeholder="Origin Service Location" />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <p style={{ fontSize: "calc(10px + 1vmin)" }}>
-                Receiver Details..
-              </p>
-            </Row>
-            <Row>
-              <Col span={11}>
+              <Col span={5}>
                 <label>Name *</label>
               </Col>
               <Col span={11}>
                 <Form.Item
-                  name="receiver_name"
+                  name="name"
                   rules={[
                     { required: true, message: "Please enter your name!" },
                   ]}
                 >
-                  <Input placeholder="Name" prefix={<UserOutlined />} />
+                  <Input placeholder="Name" prefix={<UserOutlined />} id="name" />
                 </Form.Item>
               </Col>
             </Row>
             <Row>
-              <Col span={11}>
-                <label>Email *</label>
+              <Col span={5}>
+                <label>Images *</label>
               </Col>
               <Col span={11}>
-                <Form.Item
-                  name="receiver_email"
-                  rules={[
-                    { type: "email", message: "Please Enter Valid Mail" },
-                    { required: true, message: "Please enter your mail!" },
-                  ]}
-                >
-                  <Input placeholder="Email" prefix={<MailOutlined />} />
-                </Form.Item>
+              <input type="file" multiple="true" class="form-control-file border" id="images"/>
               </Col>
             </Row>
-            <Row>
-              <Col span={11}>
-                <label>Mobile Number *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="receiver_mobile"
-                  rules={[
-                    { required: true, message: "Please enter your number!" },
-                  ]}
-                >
-                  <Input
-                    placeholder="Mobile Number"
-                    maxLength={10}
-                    prefix={<MobileOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Address *</label>
-              </Col>
-              <Col span={11}>
-               
-                <Form.Item
-                  name="receiver_address"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please enter receiver address",
-                    },
-                  ]}
-                >
-                  <TextArea placeholder="Receiver Address" />
-                </Form.Item>
-              </Col>
-            </Row>
+        
+            <Col span={11} >
+            <Form.Item>
+              <Button style={{marginLeft:"80%",marginTop:"5px"}} type={"primary"} danger htmlType="submit" onClick={handleUpload}>
+                Submit
+              </Button>
+            </Form.Item>
           </Col>
-          <Col xl={12}>
-            <Row>
-              <EditingTableInBooking
-                getTableData={getTableData}
-                rowData={tableData}
-                view={props.location.type==="view"}
-              />
-            </Row>
-            <hr />
-            <Row>
-              <Col span={11}>
-                <label>Total Weight *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="total_weight"
-                  rules={[
-                    { required: true, message: "Please enter total weight!" },
-                  ]}
-                  initialValue={0}
-                >
-                  <Input placeholder="Total Weight" disabled />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Rate/KG *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="rate"
-                  rules={[{ required: true, message: "Please enter rate/kg!" }]}
-                >
-                  <Input placeholder="Rate/Kg" onChange={updateFinalRate} />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Date *</label>
-              </Col>
-              {/* <Col span={11}>
-                <Form.Item
-                  name="date"
-                  rules={[{ required: true, message: "Please select date!" }]}
-                  initialValue={moment()}
-                >
-                  <DatePicker
-                    disabled
-                    style={{ width: "100%" }}
-                    format="DD/MM/YYYY"
-                  />
-                </Form.Item>
-              </Col> */}
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Expected Delivery Date *</label>
-              </Col>
-              {/* <Col span={11}>
-                <Form.Item
-                  name="delivery_date"
-                  rules={[
-                    { required: true, message: "Please select expected date!" },
-                  ]}
-                >
-                  <DatePicker
-                    style={{ width: "100%" }}
-                    format="DD/MM/YYYY"
-                    disabledDate={(current) => {
-                      return (
-                        current &&
-                        current < new Date(Date.now() - 24 * 60 * 60 * 1000)
-                      );
-                    }}
-                  />
-                </Form.Item>
-              </Col> */}
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Service Tax *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="tax"
-                  rules={[
-                    { required: true, message: "Please enter service tax!" },
-                  ]}
-                  initialValue={"12.5"}
-                  onChange={handleTaxChange}
-                >
-                  <Input
-                    placeholder="Service Tax"
-                    suffix={<PercentageOutlined />}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Final Total Amount *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="total_amount"
-                  rules={[{ required: true, message: "Please enter Freight!" }]}
-                >
-                  <Input placeholder="Freight" />
-                </Form.Item>
-              </Col>
-              
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>GST *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="gst_type"
-                  rules={[{ required: true, message: "Please enter Freight!" }]}
-                >
-                  <Select placeholder="Select">
-                    <Option value="With Tax">
-                      With Tax
-                    </Option>
-                    <Option value="Without Tax">Without Tax</Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-              
-            </Row>
-          </Col>
-        </Row>
-        <hr />
+        </Form>
+      </div>
+      <Row>
         <EditingTableForVechicle
           getTableData={getTableDataForVehicle}
           rowData={vehicleTableData}
@@ -443,7 +157,7 @@ const BookingPage = (props) => {
         {props.location.type==="view"?"":<Row gutter={16}>
           <Col>
             <Form.Item>
-              <Button type={"primary"} danger htmlType="submit">
+              <Button onClick={handleSubmit} type={"primary"} danger htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
@@ -452,8 +166,7 @@ const BookingPage = (props) => {
             <Button onClick={handleReset}>Reset</Button>
           </Col>
         </Row>}
-        
-      </Form>
+        </Row>
     </div>
   );
 };
