@@ -1,0 +1,59 @@
+.account-login .card-account-left {
+    /* background: -webkit-gradient(linear, left top, right top, from(#266db9), to(#153b71)); */
+    /* background: -webkit-linear-gradient(left, #266db9, #153b71); */
+    /* background: -moz-linear-gradient(left, #266db9, #153b71); */
+    /* background: -o-linear-gradient(left, #266db9, #153b71); */
+    /* background: linear-gradient(90deg, #266db9, #153b71); */
+    background: -webkit-gradient(linear, left top, right top, from(#003434), to(#006161));
+    background: -webkit-linear-gradient(left, #003434, #006161);
+    background: -moz-linear-gradient(left, #003434, #006161);
+    background: -o-linear-gradient(left, #003434, #006161);
+    background: linear-gradient(90deg, #003434, #006161);
+    border-radius: 5px 0 0 5px;
+}
+
+    .account-login .card-account-left .card-account-img {
+        position: relative;
+        top: -webkit-calc(200px - 125px);
+        top: -moz-calc(200px - 125px);
+        top: calc(200px - 125px);
+    }
+
+.account-login .card-account-right {
+    border-radius: 0 5px 5px 0;
+}
+
+
+    .backface {
+        background: #b3784f33;
+        border-radius: 15px;
+        padding-top: 15px;
+    }
+
+
+.btnbackground {
+    background: #4d6469c7 !important;
+    cursor: pointer;    
+    border-radius: 2rem;
+    -webkit-transition: .5s;
+    -o-transition: .5s;
+    -moz-transition: .5s;
+    transition: .5s;
+    background-image: -webkit-gradient(linear, left top, right top, from(#29BCFD), color-stop(51%, #1C78FF), to(#29BCFD));
+    background-image: -webkit-linear-gradient(left, #29BCFD 0, #1C78FF 51%, #29BCFD 100%);
+    background-image: -moz-linear-gradient(left, #29BCFD 0, #1C78FF 51%, #29BCFD 100%);
+    background-image: -o-linear-gradient(left, #29BCFD 0, #1C78FF 51%, #29BCFD 100%);
+    background-image: linear-gradient(to right, #29BCFD 0, #1C78FF 51%, #29BCFD 100%);
+    background-position: left center;
+    -webkit-background-size: 200% auto;
+    background-size: 200% auto;
+    border: 0;
+    box-shadow: 0 0 16px 0 rgb(48 59 63);
+    color: white;
+    font-size: 1rem;
+    color: #FFF;
+    padding: 1rem 3rem;
+    letter-spacing: .3px;
+    outline: 0!important;
+    font-weight: 700;
+}

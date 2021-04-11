@@ -1,4 +1,5 @@
 import React from "react";
+import ListImages from "./components/ListImages";
 
 import Login from "./views/pages/login/Login";
 
@@ -52,13 +53,15 @@ const routes = [
   { path: "/", exact: true, name: "Home" },
   { path: "/dashboard", name: "Dashboard", component: Dashboard },
   { path: "/addBooking", name: "Booking", component: Booking },
-  { path: "/addTruck", name: "TruckBooking", component: TruckBooking },
-  { path: "/login", name: "TruckBooking", component: Login},
-  { path: "/invoice", name: "TruckBooking", component: Invoice },
-  { path: "/listBooking", name: "TruckBooking", component: ListBooking },
-  { path: "/listVehicles", name: "TruckBooking", component: ListVehicle },
-  { path: "/myBillBook", name: "TruckBooking", component: BillBook },
-  { path: "/customer", name: "CustomerDetails", component: CustomerDetails },
+  { path: "/addTruck", name: "Truck details", component: TruckBooking },
+  // { path: "/login", name: "Authentication", component: Login},
+  { path: "/invoice", name: "Invoice", component: Invoice },
+  { path: "/listBooking", name: "List Booking", component: ListBooking },
+  { path: "/listVehicles", name: "List vehicles", component: ListVehicle },
+  
+  { path: "/customer", name: "Customer Details", component: CustomerDetails },
+  { path: "/listImages", name: "List Images", component: ListImages },
+  
   
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },

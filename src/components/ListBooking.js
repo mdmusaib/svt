@@ -251,7 +251,7 @@ const ListBooking = (props) => {
 
   const getBooking = async () => {
     let response = await api.invoke({
-      endPoint: "http://localhost:8000/api/getVehicleBooking",
+      endPoint: "https://logistic.svtinfra.com/api/getVehicleBooking",
       method: "get",
     });
     let res=[];

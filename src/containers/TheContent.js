@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import {
   Redirect,
   Route,
@@ -16,7 +16,22 @@ const loading = (
 )
 
 
-const TheContent = () => {
+
+const TheContent = (props) => {
+  useEffect(()=>{
+    console.log('CheckingAuth',JSON.parse(localStorage.getItem("Auth_token")));
+    if(JSON.parse(localStorage.getItem("Auth_token"))){
+      props.history.push({
+        pathname: "dashboard",
+        // record: record,
+      });
+    }else{
+      props.history.push({
+        pathname: "login",
+        // record: record,
+      });
+    }
+  },[])
   return (
     <main className="c-main">
       <CContainer fluid>
@@ -37,7 +52,7 @@ const TheContent = () => {
                   )} />
               )
             })}
-            <Redirect from="/" to="/dashboard" />
+            <Redirect from="/" to="/login" />
           </Switch>
         </Suspense>
       </CContainer>

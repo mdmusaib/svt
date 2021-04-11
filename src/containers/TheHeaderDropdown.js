@@ -72,8 +72,10 @@ const TheHeaderDropdown = () => {
         
         <CDropdownItem divider />
         <CDropdownItem>
+        <CLink className="c-subheader-nav-link" to="/logout">
           <CIcon name="cil-lock-locked" className="mfe-2" />
-          Lock Account
+          Logout
+          </CLink>
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

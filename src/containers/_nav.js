@@ -51,6 +51,16 @@ const _nav = [
       color: "success",
     },
       },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'List Images',
+        to: '/listImages',
+        icon: "cil-list",
+        badge: {
+          color: 'success',
+        },
+      },
+      
     ],
   },
   {

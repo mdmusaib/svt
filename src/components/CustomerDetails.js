@@ -38,7 +38,7 @@ const BookingPage = (props) => {
 
   const handleSubmit =async (value) => {
     
-    let response=await api.invoke({endPoint:"http://localhost:8000/api/customers/create",method:"post",data:value});
+    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/api/customers/create",method:"post",data:value});
       form.resetFields();
     console.log("called", response);
 
