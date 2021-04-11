@@ -1,0 +1,2 @@
+(this["webpackJsonp@coreui/coreui-free-react-admin-template"]=this["webpackJsonp@coreui/coreui-free-react-admin-template"]||[]).push([[16],{1016:function(e,t,i){"use strict";i.r(t);var c=i(1),n=i(4);t.default=function(e){return Object(c.useEffect)((function(){window.open("https://mybillbook.in/")}),[]),Object(n.jsx)("div",{})}}}]);
+//# sourceMappingURL=16.bb92ddd3.chunk.js.map
