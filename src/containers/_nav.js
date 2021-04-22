@@ -13,9 +13,24 @@ const _nav = [
     },
   },
   {
+    _tag: "CSidebarNavTitle",
+    _children: ["Customer Details"],
+    icon: 'cil-user',
+  },
+  {
+    _tag: "CSidebarNavItem",
+    name: "Add Customer",
+    to: "/customer",
+    icon: <CIcon name="cil-user" customClasses="c-sidebar-nav-icon" />,
+    badge: {
+      color: "info",
+      
+    },
+  },
+  {
     _tag: "CSidebarNavItem",
     name: "Customer Details",
-    to: "/customer",
+    to: "/customerDetails",
     icon: <CIcon name="cil-user" customClasses="c-sidebar-nav-icon" />,
     badge: {
       color: "info",
@@ -102,13 +117,13 @@ const _nav = [
   },
   {
     _tag: "CSidebarNavTitle",
-    _children: ["Invoice"],
+    _children: ["SMS"],
   },
   {
     _tag: "CSidebarNavItem",
-    name: "Invoice",
-    to: "/invoice",
-    icon: <CIcon name="cil-document" customClasses="c-sidebar-nav-icon" />,
+    name: "SMS",
+    to: "/sms",
+    icon: <CIcon name="cil-message" customClasses="c-sidebar-nav-icon" />,
   },
 
 

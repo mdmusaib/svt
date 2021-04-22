@@ -1,8 +1,6 @@
 import React from "react";
 import ListImages from "./components/ListImages";
 
-import Login from "./views/pages/login/Login";
-
 // const Toaster = React.lazy(() => import('./views/notifications/toaster/Toaster'));
 // const Tables = React.lazy(() => import('./views/base/tables/Tables'));
 
@@ -48,6 +46,8 @@ const ListBooking = React.lazy(() => import("./components/ListBooking"));
 const ListVehicle = React.lazy(() => import("./components/ListVehicles"));
 const BillBook = React.lazy(() => import("./components/BillBook"));
 const CustomerDetails=React.lazy(()=>import("./components/CustomerDetails"));
+const Message=React.lazy(()=>import("./components/Message"));
+const ListCustomer=React.lazy(()=>import("./components/CustomerTable"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },
@@ -61,6 +61,9 @@ const routes = [
   
   { path: "/customer", name: "Customer Details", component: CustomerDetails },
   { path: "/listImages", name: "List Images", component: ListImages },
+  {path:"/sms", name:"SMS" ,component: Message},
+  {path:"/customerDetails", name:"SMS" ,component: ListCustomer},
+  
   
   
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },

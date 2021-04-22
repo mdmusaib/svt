@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { ExcelRenderer} from 'react-excel-renderer';
+
 import {
   MailOutlined,
   MobileOutlined,
@@ -17,11 +19,14 @@ const { Option } = Select;
 
 const BookingPage = (props) => {
   const [form] = Form.useForm();
+  const [rows,setRows]= useState([]);
+  const [columns,setColumns]= useState([]);
   let containerRef = useRef();
   let api = useApi();
 
   const [tableData, setTableData] = useState([]);
   const [vehicleTableData, setVehicleTableData] = useState([]);
+  const [excelData,setExcelData] = useState([]);
   useEffect(() => {
     let lgScreen = window.matchMedia("(min-width: 768px)").matches;
     if (lgScreen) {
@@ -42,7 +47,7 @@ const BookingPage = (props) => {
     let bookingDetails = { vehicle_details: vehicleTableData };
     console.log("upload", bookingDetails);
     let response = await api.invoke({
-      endPoint: "https://logistic.svtinfra.com/api/addBooking",
+      endPoint: "https://logistic.svtinfra.com/backend/api/addBooking",
       method: "post",
       data: bookingDetails,
     });
@@ -76,50 +81,61 @@ const BookingPage = (props) => {
     form.resetFields();
     setTableData([]);
   };
-
-  const handleUpload = (res) => {
-    let images = document.getElementById("images").files;
-    let name = document.getElementById("name").value;
-    if (!images.length) return;
-
-    for (let i = 0; i < images.length; i++) {
-      let reader = new FileReader();
-      reader.onload = (e) => {
-        console.log("Images", e.target.result);
-        fetch("https://logistic.svtinfra.com/api/uploadFile", {
-          method: "POST",
-          body: {images:e.target.result},
-        })
-          .then((response) => response.json())
-          .catch((error) => console.error("Error:", error))
-          .then((response) => console.log("Success:", response));
-      };
-      reader.readAsDataURL(images[i]);
+  let getExcel=(file)=>{
+    console.log('file',file);
+     //just pass the fileObj as parameter
+     ExcelRenderer(file, (err, resp) => {
+      if(err){
+        console.log(err);            
+      }
+      else{
+          setColumns(resp.cols);
+          setRows(resp.rows);
+      }
+    });         
+  }
+  let saveExcelData=()=>{
+    let arr=[];
+    for(var i=1;i<rows.length;i++){
+      
+        arr.push({
+          key: i,
+          date:rows[0],
+          vehicle_no: rows[1],
+          from_loc: rows[2],
+          to_loc: rows[3],
+          dc_no: rows[4],
+          material: rows[5],
+          weight:rows[6],
+          rate: rows[7],
+          crusher_amt:rows[8],
+          party_name: rows[9],
+          unloading_qty:rows[10],
+          unloading_rate:rows[11],
+          unloading_amt:rows[12],
+          gst:rows[13],
+          payment_type:rows[14],
+          diesel_rt:rows[15],
+          diesel_qty:rows[16],
+          toll_cost:rows[17],
+          loading_quantity:rows[18],
+          accepted_quantity:rows[19],
+          lead:rows[20],
+          expences: rows[21],
+          total_amount: rows[22],
+          driver_name: rows[23],
+          profit: rows[24],
+        
+      });
     }
+    console.log('excel', arr);
+  }
 
-   
-
-    // let data = new FormData();
-    // data.append("images", images);
-    // data.append("name", name);
-
-    // //   let settings = { headers: { 'content-type': 'multipart/form-data' },method: "POST" }
-
-    // //   fetch('http://localhost:8000/api/uploadFile', data, settings)
-    // //  .then(response => {
-    // //   console.log(response)
-    // //  }).catch(response => {
-    // //   console.log(response)
-    // //  })
-
-    // // }
-    
-  };
 
   return (
     <div ref={containerRef} style={{ padding: "20px 10px" }}>
-      
-      <FileUpload/>
+      <FileUpload label='Upload Excel' type="Excel" saveExcelData={saveExcelData} excel={true} sendExcel={getExcel}/>
+      <FileUpload label="DC CHALAN NO" type="Image"/>
       <Row>
         <EditingTableForVechicle
           getTableData={getTableDataForVehicle}

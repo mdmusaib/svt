@@ -168,7 +168,7 @@ const handleInvoice=(record)=>{
 }
 
   const getBooking=async()=>{
-    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/api/getVehicle",method:"get"});
+    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/backend/api/getVehicleBooking",method:"get"});
     setDataSource(response.data);
     console.log("called", response);
   }

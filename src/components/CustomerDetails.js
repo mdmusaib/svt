@@ -38,7 +38,7 @@ const BookingPage = (props) => {
 
   const handleSubmit =async (value) => {
     
-    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/api/customers/create",method:"post",data:value});
+    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/backend/api/customers/create",method:"post",data:value});
       form.resetFields();
     console.log("called", response);
 
@@ -107,7 +107,7 @@ const BookingPage = (props) => {
   };
 
   return (
-    <div ref={containerRef} style={{ padding: "20px 10px" }}>
+  <div ref={containerRef} style={{ padding: "20px 10px" }}>
       <Row>
         
         {props.location.type==="view"?<Button
@@ -178,31 +178,16 @@ const BookingPage = (props) => {
             </Row>
             <Row>
               <Col span={11}>
-                <label>PAN *</label>
+                <label>GST *</label>
               </Col>
               <Col span={11}>
                 <Form.Item
-                  name="pan_no"
+                  name="gst"
                   rules={[
-                    { required: true, message: "Please enter your name!" },
+                    { required: true, message: "Please enter your gst Details!" },
                   ]}
                 >
-                  <Input placeholder="PAN"  />
-                </Form.Item>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <label>Aadhaar *</label>
-              </Col>
-              <Col span={11}>
-                <Form.Item
-                  name="aadhaar_no"
-                  rules={[
-                    { required: true, message: "Please enter your name!" },
-                  ]}
-                >
-                  <Input placeholder="Aadhaar"  />
+                  <Input placeholder="GST No"  />
                 </Form.Item>
               </Col>
             </Row>

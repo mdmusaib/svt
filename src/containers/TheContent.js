@@ -38,7 +38,7 @@ const TheContent = (props) => {
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {
-              console.log('auth');
+              console.log('auth', routes);
               return route.component && (
                 <Route
                   key={idx}

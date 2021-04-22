@@ -19,7 +19,7 @@ const Login = (props) => {
     let password=document.getElementById("password_field").value;
     console.log('login');
     let response = await api.invoke({
-      endPoint: "http://localhost:8000/api/login",
+      endPoint: "https://logistic.svtinfra.com/backend/api/login",
       method: "post",
       data: {"email":email,"password":password},
     });

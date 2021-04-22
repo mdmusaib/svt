@@ -12,7 +12,7 @@ useEffect(() => {
         new Promise((resolve)=>{
             console.log('invoice',props.location.record);
             setInvoiceData(props.location.record)
-            // let response=await api.invoke({endPoint:`https://svt-logictics.herokuapp.com/api/getBooking/${props.location.record.id}`,method:"get"});
+            // let response=await api.invoke({endPoint:`https://logistic.svtinfra.com/backend/api/getBooking/${props.location.record.id}`,method:"get"});
             
     
             props?.location?.record.map(data=>{
@@ -32,14 +32,14 @@ useEffect(() => {
   
     
 return(
-    <>
-    {props.location.type==="view"?<div  class="container d-flex justify-content-center mt-50 mb-50">
+    <div className="container">
+    {props.location.type==="view"?<div  class="container mt-50 mb-50">
     <div class="row">
         <div class="col-md-12">
-            <img src="https://svtinfra.com/images/svt%20infra.png" alt="Smiley face" height="100" width="100" />
             <div class="card">
                 <div class="card-header bg-transparent header-elements-inline">
-                    <h6 class="card-title">Tax invoice</h6>
+                    <h6 class="card-title"><img src="https://svtinfra.com/images/svt%20infra.png" alt="Smiley face" height="50" width="50" /></h6>
+                    <h6 class="card-title text-center">Tax Invoice</h6>
                     <div class="header-elements"> <button type="button" class="btn btn-light btn-sm ml-3" onClick={()=>{window.print()}}><i class="fa fa-print mr-2"></i> Print</button> </div>
                 </div>
                 <div class="card-body">
@@ -60,9 +60,9 @@ return(
                         <div class="col-sm-6">
                             <div class="mb-4 ">
                                 <div class="text-sm-right">
-                                    <h4 class="invoice-color mb-2 mt-md-2">Invoice No: 59</h4>
+                                    <h4 class="invoice-color mb-2 mt-md-2">Invoice No: {invoiceData[0]?.id}</h4>
                                     <ul class="list list-unstyled mb-0">
-                                        <li>Date: <span class="font-weight-semibold">March 15, 2020</span></li>
+                                        <li>Date: <span class="font-weight-semibold">{invoiceData[0]?.date}</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -72,11 +72,11 @@ return(
                         <div class="mb-4 mb-md-2 text-left"> <h5 class="text-muted">Invoice To:</h5>
                             <ul class="list list-unstyled mb-0">
                                 <li>
-                                    <h6 class="my-2">KUNAL METAL</h6>
+                                    <h6 class="my-2">{invoiceData[0]?.party_name}</h6>
                                 </li>
-                                <li><span class="font-weight-bold">CHENNAI</span></li>
-                                <li><span span class="font-weight-bold">GSTIN: 8879HDJ6399 </span></li>
-                                <li><a href="#" data-abc="true" class="font-weight-bold">kunalmetal@gmail.com</a></li>
+                                <li><span class="font-weight-bold">{invoiceData[0]?.to_loc}</span></li>
+                                {/* <li><span span class="font-weight-bold">GSTIN: 8879HDJ6399 </span></li>
+                                <li><a href="#" data-abc="true" class="font-weight-bold">kunalmetal@gmail.com</a></li> */}
                             </ul>
                         </div>
                     </div>
@@ -141,7 +141,7 @@ return(
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-right mt-3"> <button type="button" class="btn btn-primary"><b><i class="fa fa-paper-plane-o mr-1"></i></b> Send invoice</button> </div>
+                            {/* <div class="text-right mt-3"> <button type="button" class="btn btn-primary"><b><i class="fa fa-paper-plane-o mr-1"></i></b> Send invoice</button> </div> */}
                         </div>
                     </div>
                 </div>
@@ -150,8 +150,7 @@ return(
         </div>
     </div>
     </div>:"No Data"}
-    
-    </>
+    </div>
 )
 }
 export default Invoice;

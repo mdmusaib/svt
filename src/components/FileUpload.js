@@ -11,35 +11,44 @@ import {
   UserOutlined,
  
 } from "@ant-design/icons";
-const  FileUpload =()=>{
+const  FileUpload =(props)=>{
   const [imagedata,setImageData]=useState('');
   const myFormRef=useRef(); 
 //FileChange
 let handleChange=(file)=>{
 
-  setImageData(file[0]);
-
+  
+  if(props.excel){
+    props.sendExcel(file[0]);
+  }else{
+    setImageData(file[0]);
+  }
 
 }
 
   //Form Submission
   let addFormData=(evt)=>{
-    
-      evt.preventDefault();
-      const fd = new FormData();
-      const name=document.getElementById("name").value;
-      fd.append('image', imagedata);
-      fd.append('name',name );
-     
-      //Post Request to laravel API Route
-      axios.post('https://logistic.svtinfra.com/api/uploadFile', fd
-      ).then(res=>
-      {
-    // myFormRef.current.reset();
-    console.log('res',res)
-    
-    }
-    );
+      if(props.excel){
+        props.saveExcelData();
+      }else{
+
+        evt.preventDefault();
+        const fd = new FormData();
+        const name=document.getElementById("name").value;
+        fd.append('image', imagedata);
+        fd.append('name',name );
+       
+        //Post Request to laravel API Route
+        axios.post('https://logistic.svtinfra.com/backend/api/uploadFile', fd
+        ).then(res=>
+        {
+      // myFormRef.current.reset();
+      console.log('res',res)
+  
+      alert('file uploaded successfully!',res);
+      }
+      ).catch((error) => alert("Error:", error))
+      }
     
 }
 return (
@@ -48,20 +57,17 @@ return (
     <Form style={{ paddingTop: 20, paddingLeft: 180 }} >
       <Row>
         <Col span={5}>
-          <label>DC CHALAN *</label>
+          <label>{props.label}</label>
         </Col>
-        <Col span={11}>
-          {/* <Form.Item
-            name="name"
-            rules={[{ required: true, message: "Please enter your name!" }]}
-          > */}
+        {!props.excel && 
+          <Col span={11}>
             <input placeholder="No"  id="name" />
-          {/* </Form.Item> */}
         </Col>
+        }
       </Row>
       <Row>
         <Col span={5}>
-          <label>Images *</label>
+          {/* <label>{props.type}</label> */}
         </Col>
         <Col span={11}>
           <input

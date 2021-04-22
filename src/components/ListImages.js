@@ -5,7 +5,7 @@ import React, {
     useRef,
     createRef,
   } from "react";
-  import { Table, Input, Button, Popconfirm, Form, Space, Col,Modal } from "antd";
+  import { Table, Input, Button, Popconfirm, Form, Space, Col,Modal, Row } from "antd";
   import {
     EyeOutlined,
     FileTextOutlined,
@@ -135,7 +135,7 @@ import React, {
 
     const getBooking = async () => {
       let response = await api.invoke({
-        endPoint: "http://localhost:8000/api/getImages",
+        endPoint: "https://logistic.svtinfra.com/backend/api/getImages",
         method: "get",
       });
       let res=[];
@@ -155,7 +155,8 @@ import React, {
           // Column configuration not to be checked
           name: record.name,
         }),
-      }  
+      } 
+      
   
     return (
       <div style={{ width: "100%" }}>
@@ -172,11 +173,17 @@ import React, {
           pagination={false}
           
         />
-        <Modal title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+        <Modal centered width={800} height={500} style={{marginLeft:"20%",marginTop:"10%"}} title="Basic Modal" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
         {
             selectedRow.map(data=>
-                <img src="file:///C:/logistic_svt/public/img/092101-EY.png" alt="Images"/>
-                )
+              <div style={{width:"100%",height:"100%", overflow:'auto'}}>
+              <Row>
+                <Col md={6}>
+                <img src={`https://logistic.svtinfra.com/backend/public/img/${data.images}`} alt="Images" />
+                </Col>
+                </Row>
+                </div>
+            )
         }
       </Modal>
          <Col>

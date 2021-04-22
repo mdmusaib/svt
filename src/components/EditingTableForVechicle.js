@@ -40,7 +40,7 @@ const EditableCell = ({
     getAllCustomer();
   }, []);
   const getAllCustomer=async ()=>{
-    let response=await api.invoke({endPoint:"http://localhost:8000/api/customers",method:"get"}); 
+    let response=await api.invoke({endPoint:"https://logistic.svtinfra.com/backend/api/customers",method:"get"}); 
     setCustomerData(response);
     console.log('response',response);
   }
@@ -208,133 +208,151 @@ class EditingTableForVechicle extends React.Component {
     
     this.columns = [
       {
-        title: "* Vehicle No",
-        dataIndex: "vehicle_no",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* DC.NO",
-        dataIndex: "dc_no",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* From",
-        dataIndex: "from_loc",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* To",
-        dataIndex: "to_loc",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Material",
-        dataIndex: "material",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Party Name",
-        dataIndex: "party_name",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Rate",
-        dataIndex: "rate",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Weight",
-        dataIndex: "weight",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* GST",
-        dataIndex: "gst",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Payment Type",
-        dataIndex: "payment_type",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Diseal Rate",
-        dataIndex: "diesel_rt",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Diseal Qty",
-        dataIndex: "diesel_qty",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Loading Quantity",
-        dataIndex: "loading_quantity",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Accepted Quantity",
-        dataIndex: "accepted_quantity",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Logistic Rent",
-        dataIndex: "logistic_rent",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Lead",
-        dataIndex: "lead",
-        editable: true,
-        width: "200",
-      },
-      {
-        title: "* Date",
+        title: "Date",
         dataIndex: "date",
         editable: true,
         width: "200",
       },
       {
-        title: "* PUC",
-        dataIndex: "puc",
+        title: "Vehicle No",
+        dataIndex: "vehicle_no",
         editable: true,
         width: "200",
       },
       {
-        title: "* Expences",
+        title: "From",
+        dataIndex: "from_loc",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "To",
+        dataIndex: "to_loc",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "DC.NO",
+        dataIndex: "dc_no",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Material Name",
+        dataIndex: "material",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Crusher Oty",
+        dataIndex: "weight",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Crusher Rate",
+        dataIndex: "rate",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Crusher Amt",
+        dataIndex: "crusher_amt",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Customer Name",
+        dataIndex: "party_name",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Unloading Qty",
+        dataIndex: "unloading_qty",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Unloading Rate",
+        dataIndex: "unloading_rate",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Unloading Amt",
+        dataIndex: "unloading_amt",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "GST",
+        dataIndex: "gst",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Payment Type",
+        dataIndex: "payment_type",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Diseal Rate",
+        dataIndex: "diesel_rt",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Diseal Qty",
+        dataIndex: "diesel_qty",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Toll Cost",
+        dataIndex: "toll_cost",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Loading Quantity",
+        dataIndex: "loading_quantity",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Accepted Quantity",
+        dataIndex: "accepted_quantity",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Lead / KMPL",
+        dataIndex: "lead",
+        editable: true,
+        width: "200",
+      },
+      {
+        title: "Expences, pc,food ",
         dataIndex: "expences",
         editable: true,
         width: "200",
       },
       {
-        title: "* Driver Name",
+        title: "Driver Name",
         dataIndex: "driver_name",
         editable: true,
         width: "200",
       },
       {
-        title: "* Profit",
+        title: "Profit",
         dataIndex: "profit",
         editable: true,
         width: "200",
       },
       {
-        title: "* Tot Amt",
+        title: "Tot Amt",
         dataIndex: "total_amount",
         editable: true,
         width: "200",
@@ -382,6 +400,7 @@ class EditingTableForVechicle extends React.Component {
     const { count, dataSource } = this.state;
     const newData = {
       key: count,
+      crusher_amt:"",
       vehicle_no: "",
       dc_no: "",
       from_loc: "",
@@ -389,7 +408,9 @@ class EditingTableForVechicle extends React.Component {
       material: "",
       party_name: "",
       rate: "",
-      scale: "",
+      unloading_qty:"",
+      unloading_rate:"",
+      unloading_amt:"",
       weight:"",
       gst:"",
       payment_type:"",
@@ -397,15 +418,12 @@ class EditingTableForVechicle extends React.Component {
       diesel_qty:"",
       loading_quantity:"",
       accepted_quantity:"",
-      logistic_rent:"",
       lead:"",
       date:"",
-      puc:"",
       total_amount: "",
       expences: "",
       driver_name: "",
       profit: "",
-      
     };
     this.setState({
       dataSource: [...dataSource, newData],
